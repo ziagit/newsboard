@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { interval } from 'rxjs';
+import { MediaMatcher } from '@angular/cdk/layout';
+
 
 @Component({
   selector: 'app-news',
@@ -7,6 +9,8 @@ import { interval } from 'rxjs';
   styleUrls: ['./news.component.css']
 })
 export class NewsComponent implements OnInit {
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
   textBox = '';
 
   headUrl = 'https://newsapi.org/v2/top-headlines?' +
@@ -21,12 +25,21 @@ export class NewsComponent implements OnInit {
     
 
   headReq = new Request(this.headUrl);
+  searchReq = new Request(this.searchUrl);
 
   newsHead: any = [];
   totalResults: number=0;
 
-  constructor() {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+
     this.callApi();
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   ngOnInit() {

@@ -1,21 +1,22 @@
-<mat-card class="search-card">
-  <h3>NewsBoard</h3>
-  <div class="example-form">
+<mat-toolbar color="primary">
+    <span class="logo" *ngIf="!mobileQuery.matches">NewsBoard</span>
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Search Top News" [(ngModel)]="textBox">
+      <input type="text" matInput placeholder="Search">
+      <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <button mat-button (click)="search()">
-      <mat-icon>search</mat-icon>
-    </button>
-  </div>
-</mat-card>
+</mat-toolbar>
 
 <div class="container">
   <mat-card class="example-card" *ngFor="let news of newsHead">
     <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
+      <div mat-card-avatar class="example-header-image"><img src="{{news.urlToImage}}" alt=""></div>
       <mat-card-title>{{news.title}}</mat-card-title>
-      <mat-card-subtitle> Author: {{news.author}} | Published at: {{news.publishedAt}} | Source: {{news.source.name}}
+      <mat-card-subtitle>
+        <mat-chip-list>
+          <mat-chip matTooltip=" {{news.source.name}}">Source</mat-chip>
+          <mat-chip matTooltip="{{news.publishedAt}}">Published at</mat-chip>
+          <mat-chip matTooltip="{{news.author}}">Author</mat-chip>
+        </mat-chip-list>
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
