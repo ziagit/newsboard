@@ -1,0 +1,36 @@
+<mat-card class="search-card">
+  <h3>NewsBoard</h3>
+  <div class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Search Top News" [(ngModel)]="textBox">
+    </mat-form-field>
+    <button mat-button (click)="search()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</mat-card>
+
+<div class="container">
+  <mat-card class="example-card" *ngFor="let news of newsHead">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{news.title}}</mat-card-title>
+      <mat-card-subtitle> Author: {{news.author}} | Published at: {{news.publishedAt}} | Source: {{news.source.name}}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="{{news.urlToImage}}" alt="">
+      <p>
+        {{news.content}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <div>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </div>
+      <a mat-button href="{{news.url}}" target="_blank">More...</a>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
